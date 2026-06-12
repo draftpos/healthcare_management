@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_hospital_bed_form_view" model="ir.ui.view">
+        <field name="name">medical.hospital.bed.form.view</field>
+        <field name="model">medical.hospital.bed</field>
+        <field name="arch" type="xml">
+            <form string="Bed">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="hospital_bed_product_id" required="1" context="{'default_is_bed': 1, 'search_default_is_bed': 1,'search_default_type': 'service','default_type': 'service'}" />
+                            <field name="medical_hospital_ward_d" />
+                            <field name="bed_type" />
+                        </group>
+                        <group>
+                            <field name="telephone_number" />
+                            <field name="state" />
+                        </group>
+                    </group>
+                    <group string="Extra Information" />
+                    <field name="extra_info" placeholder="Write Information.."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_hospital_bed_tree_view" model="ir.ui.view">
+        <field name="name">medical.hospital.bed.list.view</field>
+        <field name="model">medical.hospital.bed</field>
+        <field name="arch" type="xml">
+            <list string="Health Center Bed Info">
+                <field name="hospital_bed_product_id" />
+                <field name="medical_hospital_ward_d" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_medical_hospital_bed" model="ir.actions.act_window">
+        <field name="name">Health Center Beds</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.hospital.bed</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_health_centers_beds" action="action_medical_hospital_bed" sequence="5" parent="menu_health_centers" />
+
+</odoo>

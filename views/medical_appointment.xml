@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="medical_appointment_form_view" model="ir.ui.view">
+            <field name="name">medical.appointment.form.view</field>
+            <field name="model">medical.appointment</field>
+            <field name="arch" type="xml">
+                <form string="Appointment">
+                    <header>
+                        <button name="%(healthcare_management.action_medical_appointments_invoice_wizard)d" string="Create Invoice" type="action" class="oe_highlight" />
+                    </header>
+                    <field name="is_notified" invisible="1"/>
+                    <div class="alert alert-success alert-dismissible fade show" style="padding-bottom:20px;" role="alert" invisible="is_notified != True">
+
+                        <strong>New Appointment is created Successfully!</strong>
+                        <span style="float: right;">
+                            <button string="x" name="action_close_alert" type="object" data-dismiss="alert" aria-label="Close"/>
+                        </span>
+                    </div>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_invoices" type="object" invisible="not count_invoice"  context="{'open_invoice': True}" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <div class="o_field_widget o_stat_info">
+                                    <field name="count_invoice"/>
+                                    <span class="o_stat_text">Invoices</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Appointment #" />
+                            <h1>
+                                <field name="name" class="oe_inline" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="patient_id" context="{'appointment_id': 'appointment'}" options="{&quot;always_reload&quot;: True}"/>
+                                <field name="doctor_id" />
+                                <field name="speciality_id" />
+                                <field name="appointment_date" />
+                                <field name="appointment_end" />
+                                <field name="patient_status" />
+                                <field name="no_invoice" />
+                                <field name="validity_status" readonly="1" />
+                                <field name="appointment_validity_date" />
+                            </group>
+                            <group>
+                                <field name="institution_partner_id" />
+                                <field name="inpatient_registration_id" invisible="1"/>
+                                <field name="duration" />
+                                <field name="urgency_level" />
+                                <field name="invoice_to_insurer" />
+                                <field name="insurer_id" 
+                                    invisible="invoice_to_insurer == False" />
+                                <field name="consultations_id" />
+                                <field name="need_to_revisit"
+                                    invisible="count_invoice ==  False"/>
+                                <field name="total_no_of_visits" 
+                                    invisible ="need_to_revisit == False"/> 
+                                <field name="access_token" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Comments">
+                                <field name="comments" placeholder="Write Comments..."/>
+                            </page>
+                            <page name="insurance" string="Insurance"  invisible ="insurer_id == False">
+                                <group>
+                                    <group>
+                                        <field name="is_file_needed" invisible="1"/>
+                                        <field name="is_pf_file" invisible="1"/>
+                                        <field name="is_pay_slip" invisible="1"/>
+                                        <field name="is_bank_statement" invisible="1"/>
+                                        <field name="is_medical_bill" invisible="1"/>
+                                        <field name="file" filename="file_name" invisible ="is_file_needed == False"/>
+                                        <field name="file_name" invisible="1"/>
+                                        <field name="pf_file" filename="pf_file_name" invisible ="is_pf_file == False"/>
+
+                                        <field name="pf_file_name" invisible="1" />
+                                        <field name="payslip_file" filename="payslip_file_name" invisible ="is_pay_slip == False"/>
+
+                                        <field name="payslip_file_name" invisible="1" />
+                                        <field name="bank_statement_file" filename="bank_statement_file_name" invisible ="is_bank_statement == False"/>
+
+                                        <field name="bank_statement_file_name" invisible="1"/>
+                                        <field name="medical_bill_file" filename="medical_bill_file_name" invisible ="is_medical_bill == False"/>
+
+                                        <field name="medical_bill_file_name" invisible="1"/>
+                                        <field name="policy_no" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="revisit" string="Re-visit" invisible ="need_to_revisit == False">
+
+                                <group>
+                                    <group>
+                                        <field name="next_visit_date"  invisible ="need_to_revisit == True"/>
+                                    </group>
+                                    <group>
+                                        <field name="next_visit_charge"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter reload_on_follower="True"/>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="medical_appointment_calendar_view" model="ir.ui.view">
+            <field name="name">medical.appointment.calendar.view</field>
+            <field name="model">medical.appointment</field>
+            <field name="arch" type="xml">
+                <calendar string="Appointments" color="doctor_id" date_start="appointment_date" date_stop="appointment_end">
+                    <field name="patient_id" />
+                    <field name="doctor_id" />
+                </calendar>
+            </field>
+        </record>
+
+        <record id="medical_appointment_tree_view" model="ir.ui.view">
+            <field name="name">medical.appointment.list.view</field>
+            <field name="model">medical.appointment</field>
+            <field name="arch" type="xml">
+                <list string="Appointment Information">
+                    <field name="name" />
+                    <field name="patient_id" />
+                    <field name="patient_status" />
+                    <field name="urgency_level" />
+                    <field name="appointment_date" />
+                    <field name="appointment_end" />
+                    <field name="doctor_id" />
+                    <field name="speciality_id" />
+                    <field name="institution_partner_id" />
+                </list>
+            </field>
+        </record>
+
+        <record id="action_medical_appointment" model="ir.actions.act_window">
+            <field name="name">Appointments</field>
+            <field name="res_model">medical.appointment</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,form,calendar</field>
+        </record>
+
+        <record id="action_app_to_invoice" model="ir.actions.act_window">
+            <field name="name">Appointments to be invoiced</field>
+            <field name="res_model">medical.appointment</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_invoiced','=',False)]</field>
+        </record>
+
+        <record id="action_view_appointment_id_new" model="ir.actions.act_window">
+            <field name="name">Appointments</field>
+            <field name="res_model">medical.appointment</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('patient_id', '=', active_id)]</field>
+        </record>
+
+        <menuitem id="menu_medical_appointment" action="action_medical_appointment" parent="healthcare_management.menu_appointment" sequence="1" />
+
+        <menuitem id="app_to_invoice" action="action_app_to_invoice" parent="Invoice" sequence="3"/>
+    </data>
+</odoo>

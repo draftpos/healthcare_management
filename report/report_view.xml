@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_patient_card" model="report.paperformat">
+            <field name="name">Paperformat Patient Card</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">180</field>
+            <field name="page_width">170</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+        <!-- QWeb Reports -->
+
+        <record id="report_print_prescription" model="ir.actions.report">
+            <field name="name">Prescription</field>
+            <field name="model">medical.prescription.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.prescription_demo_report</field>
+            <field name="report_file">healthcare_management.prescription_demo_report</field>
+            <field name="binding_model_id" ref="model_medical_prescription_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="report_print_appointment" model="ir.actions.report">
+            <field name="name">Appointment Recipts New</field>
+            <field name="model">medical.appointment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.appointment_recipts_report</field>
+            <field name="report_file">healthcare_management.appointment_recipts_report</field>
+            <field name="binding_model_id" ref="model_medical_appointment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_patient_card" model="ir.actions.report">
+            <field name="name">Patient Card</field>
+            <field name="model">medical.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.report_patient_card</field>
+            <field name="report_file">healthcare_management.report_patient_card</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="paperformat_id" ref="healthcare_management.paperformat_patient_card" />
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="report_print_newborn_card" model="ir.actions.report">
+            <field name="name">Newborn Card</field>
+            <field name="model">medical.newborn</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.report_newborn_card</field>
+            <field name="report_file">healthcare_management.report_newborn_card</field>
+            <field name="binding_model_id" ref="model_medical_newborn"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_patient_medications_document" model="ir.actions.report">
+            <field name="name">Medication History New</field>
+            <field name="model">medical.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.patient_medications_document</field>
+            <field name="report_file">healthcare_management.patient_medications_document</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_patient_vaccinations_document" model="ir.actions.report">
+            <field name="name">Vaccinations History New</field>
+            <field name="model">medical.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.patient_vaccinations</field>
+            <field name="report_file">healthcare_management.patient_vaccinations</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_patient_diseases_document" model="ir.actions.report">
+            <field name="name">Diseases Report New</field>
+            <field name="model">medical.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.patient_diseases_document</field>
+            <field name="report_file">healthcare_management.patient_diseases_document</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_lab_test_demo" model="ir.actions.report">
+            <field name="name">Lab Test</field>
+            <field name="model">medical.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.lab_test_demo</field>
+            <field name="report_file">healthcare_management.lab_test_demo</field>
+            <field name="binding_model_id" ref="model_medical_patient"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_lab_result_demo" model="ir.actions.report">
+            <field name="name">Lab Record</field>
+            <field name="model">medical.lab</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.lab_result_demo</field>
+            <field name="report_file">healthcare_management.lab_result_demo</field>
+            <field name="binding_model_id" ref="model_medical_lab"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="paperformat_visiting_card" model="report.paperformat">
+            <field name="name">Paperformat Visiting Card</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">100</field>
+            <field name="page_width">170</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">2</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="report_print_patient_visiting_card" model="ir.actions.report">
+            <field name="name">Patient Visiting Card</field>
+            <field name="model">medical.inpatient.registration</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.report_patient_visiting_card</field>
+            <field name="report_file">healthcare_management.report_patient_visiting_card</field>
+            <field name="binding_model_id" ref="model_medical_inpatient_registration"/>
+            <field name="paperformat_id" ref="healthcare_management.paperformat_visiting_card" />
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_print_patient_medical_certificate" model="ir.actions.report">
+            <field name="name">Patient Medical Certificate</field>
+            <field name="model">medical.inpatient.registration</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">healthcare_management.report_patient_medical_certificate</field>
+            <field name="report_file">healthcare_management.report_patient_medical_certificate</field>
+            <field name="binding_model_id" ref="model_medical_inpatient_registration"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="medical_newborn_form_view" model="ir.ui.view">
+        <field name="name">medical.newborn.form.view</field>
+        <field name="model">medical.newborn</field>
+        <field name="arch" type="xml">
+            <form string="Newborn Info" version="9.0">
+                <header>
+                    <button name="registration_confirm"  invisible = "state != 'draft'" string="Confirm Registration" class="oe_highlight" type="object" />
+                    <button name="registration_cancel"  invisible = "state != 'confirmed'" class="oe_highlight" string="Cancel Registration" type="object" />
+                    <button name="registration_admission" invisible = "state != 'confirmed'" class="oe_highlight" string="Admission" type="object" />
+                    <button name="patient_discharge" invisible = "state != 'hospitalized'" class="oe_highlight" string="Discharge" type="object" />
+                    <button name="print_card" string="Print Newborn Card" type="object" class="oe_highlight" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled,hospitalized" readonly="1" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_invoices" type="object" invisible="count_invoice == False" context="{'open_invoice': True}" class="oe_stat_button" icon="fa-pencil-square-o">
+
+                            <div class="o_field_widget o_stat_info">
+                                <field name="count_invoice"/>
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                    </div>
+                    <field name="photo" nolabel="1" class="oe_left oe_avatar" img_width="120" img_height="120" widget="image" />
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name" />
+                        </div>
+                        <field name="name" default_focus="1" placeholder="Newborn ID" />
+                    </div>
+                    <group string="Main">
+                        <group>
+                            <field name="baby_name" required="1" />
+                            <field name="patient_id" readonly="1"/>
+                            <field name="sex" />
+                            <field name="dismissed" />
+                            <field name="weight" />
+                            <field name="blood_type"/>
+                            <field name="rh"/>
+                            <field name="responsible_physician_id"/>
+                        </group>
+                        <group>
+                            <field name="mother_patient_id" />
+                            <field name="birth_date" />
+                            <field name="length"/>
+                            <field name="cephalic_perimeter" />
+                            <field name="medical_hospital_bed_id" domain="[('state','=','free')]" options="{'no_create': True}"/>
+                            <field name="ward_id"/>
+                        </group>
+                        <group string="APGAR Scores" colspan="10">
+                            <field name="apgar_score_ids" nolabel="1" colspan="2"/>
+                        </group>
+                    </group>
+                    <group string="REANIMATION">
+                        <group>
+                            <field name="reanimation_stimulation" />
+                            <field name="reanimation_aspiration" />
+                            <field name="reanimation_intubation" />
+                        </group>
+                        <group>
+                            <field name="reanimation_mask" />
+                            <field name="reanimation_oxygen" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Findings and Tests">
+                            <group string="Neonatal Signs and Symptoms">
+                                <group>
+                                    <field name="meconium" />
+                                    <field name="neonatal_ortolani" />
+                                    <field name="neonatal_barlow" />
+                                    <field name="neonatal_hernia" />
+                                    <field name="neonatal_ambiguous_genitalia" />
+                                    <field name="neonatal_erbs_palsy" />
+                                </group>
+                                <group>
+                                    <field name="neonatal_hematoma" />
+                                    <field name="neonatal_talipes_equinovarus" />
+                                    <field name="neonatal_palmar_crease" />
+                                    <field name="neonatal_polydactyly" />
+                                    <field name="neonatal_syndactyly" />
+                                </group>
+                            </group>
+                            <group string="Neonatal Reflex Check">
+                                <group>
+                                    <field name="neonatal_moro_reflex" />
+                                    <field name="neonatal_grasp_reflex" />
+                                    <field name="neonatal_stepping_reflex" />
+                                    <field name="neonatal_babinski_reflex" />
+                                </group>
+                                <group>
+                                    <field name="neonatal_blink_reflex" />
+                                    <field name="neonatal_sucking_reflex" />
+                                    <field name="neonatal_swimming_reflex" />
+                                    <field name="neonatal_tonic_neck_reflex" />
+                                </group>
+                            </group>
+                            <group string="Congenital diseases">
+                                <field name="congenital_disease_ids" nolabel="1" colspan="2"/>
+                            </group>
+                            <group string="Medication">
+                                <field name="medication_ids" nolabel="1" colspan="2"/>
+                            </group>
+                            <group string="Tests">
+                                <group>
+                                    <field name="test_vdrl" />
+                                    <field name="test_toxo" />
+                                    <field name="test_chagas" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="test_billirubin" />
+                                    <field name="test_audition" />
+                                    <field name="test_metabolic" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Deceased">
+                            <group string="Deceased">
+                                <group>
+                                    <field name="still_birth" />
+                                    <field name="died_at_delivery" />
+                                    <field name="died_at_the_hospital" />
+                                </group>
+                                <group>
+                                    <field name="died_being_transferred" />
+                                    <field name="time_of_death" />
+                                    <field name="cause_of_death" />
+                                </group>
+                            </group>
+                            <group string="Mother Deceased">
+                                <group>
+                                    <field name="mother_still_birth" />
+                                    <field name="mother_died_at_delivery" />
+                                    <field name="mother_died_at_the_hospital" />
+                                </group>
+                                <group>
+                                    <field name="mother_died_being_transferred" />
+                                    <field name="mother_time_of_death" />
+                                    <field name="mother_cause_of_death" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_newborn_tree_view" model="ir.ui.view">
+        <field name="name">medical.newborn.list.view</field>
+        <field name="model">medical.newborn</field>
+        <field name="arch" type="xml">
+            <list string="Newborn Info">
+                <field name="name" />
+                <field name="baby_name" />
+                <field name="mother_patient_id" />
+                <field name="birth_date" />
+                <field name="sex" />
+                <field name="length" />
+                <field name="weight" />
+            </list>
+        </field>
+    </record>
+
+    <record id="medical_newborn_search_view" model="ir.ui.view">
+        <field name="name">medical.newborn.search.view</field>
+        <field name="model">medical.newborn</field>
+        <field name="arch" type="xml">
+            <search string="Search Newborn">
+                <field name="name" />
+                <filter string="Date" name='by_birth_date' context="{'group_by':'birth_date'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_medical_newborn" model="ir.actions.act_window">
+        <field name="name">Newborn</field>
+        <field name="res_model">medical.newborn</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem name="Newborn" id="new_born_menuitem" action="action_medical_newborn" parent="healthcare_management.main_menu_pediatrics" sequence="1" />
+
+</odoo>

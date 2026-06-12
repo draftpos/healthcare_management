@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_attribute_rh" model="product.attribute">
+            <field name="name">RH</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="product_attribute_rh_plus" model="product.attribute.value">
+            <field name="name">+</field>
+            <field name="attribute_id" ref="product_attribute_rh"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="product_attribute_rh_minus" model="product.attribute.value">
+            <field name="name">-</field>
+            <field name="attribute_id" ref="product_attribute_rh"/>
+            <field name="sequence">2</field>
+        </record>
+
+        <record id="product_product_a_product_template" model="product.template">
+            <field name="name">A</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        
+
+        <record id="product_a_pluse_product_template" model="product.template">
+            <field name="name">A(+)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+         <record id="product_a_minus_product_template" model="product.template">
+            <field name="name">A(-)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+        <record id="product_product_b_product_template" model="product.template">
+            <field name="name">B</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="product_product_b_pluse_product_template" model="product.template">
+            <field name="name">B(+)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_b_minus_product_template" model="product.template">
+            <field name="name">B(-)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+       <record id="product_product_ab_product_template" model="product.template">
+            <field name="name">AB</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_ab_pluse_product_template" model="product.template">
+            <field name="name">AB(+)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_ab_minus_product_template" model="product.template">
+            <field name="name">AB(-)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+      
+
+        <record id="product_product_o_product_template" model="product.template">
+            <field name="name">O</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_o_pluse_product_template" model="product.template">
+            <field name="name">O(+)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+        <record id="product_product_o_minus_product_template" model="product.template">
+            <field name="name">O(-)</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="is_blood">True</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+       
+        <record id="product_product_revisit_service_charge_product_template" model="product.product">
+            <field name="name">Re-Visit Service or Checking Charge</field>
+            <field name="type">service</field>
+        </record>
+    </data>
+</odoo>

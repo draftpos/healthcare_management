@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_hospital_ward_form_view" model="ir.ui.view">
+        <field name="name">medical.hospital.ward.form.view</field>
+        <field name="model">medical.hospital.ward</field>
+        <field name="arch" type="xml">
+            <form string="Health Center Ward">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="medical_hospital_ward_institution_id" />
+                            <field name="medical_hospital_building_id" />
+                            <field name="floor" />
+                            <field name="private" />
+                            <field name="medical_hospital_unit_id" />
+                            <field name="bio_hazard" />
+                            <field name="is_occupied"/>
+                            <field name="is_vacant"/>
+                            <field name="number_of_beds" />
+                            <field name="gender" />
+                        </group>
+                        <group>
+                            <field name="telephone" />
+                            <field name="ac" />
+                            <field name="private_bathroom" />
+                            <field name="guest_sofa" />
+                            <field name="tv" />
+                            <field name="internet" />
+                            <field name="refrigerator" />
+                            <field name="microwave" />
+                            <field name="state" />
+                        </group>
+                    </group>
+                    <group string="Extra Information" name="extra_info"/>
+                    <field name="extra_info" placeholder="Write Extra Information" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_hospital_ward_tree_view" model="ir.ui.view">
+        <field name="name">medical.hospital.ward.list.view</field>
+        <field name="model">medical.hospital.ward</field>
+        <field name="arch" type="xml">
+            <list string="Health Center Ward Info">
+                <field name="name" />
+                <field name="number_of_beds" />
+                <field name="gender" />
+                <field name="medical_hospital_ward_institution_id" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_medical_hospital_ward" model="ir.actions.act_window">
+        <field name="name">Health Center Wards</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.hospital.ward</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_health_centers_hospital_ward" action="action_medical_hospital_ward" sequence="4" parent="menu_health_centers" />
+
+</odoo>

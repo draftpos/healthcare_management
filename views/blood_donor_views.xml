@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="blood_donor_view_form" model="ir.ui.view">
+        <field name="name">blood.donor.view.form</field>
+        <field name="model">blood.donor</field>
+        <field name="arch" type="xml">
+            <form string="Blood Donor">
+                <header>
+                    <button string="Donate" name="action_donate_blood" type="object" class="oe_highlight"/>
+                    <button string="Take Blood" name="action_take_blood" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_open_in_transaction" type="object" icon="fa-bars" invisible="count_in_transaction == False">
+
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="count_in_transaction"/>
+                                </span>
+                                <span class="o_stat_text">
+                                        Donated
+                                </span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_open_out_transaction" type="object" icon="fa-bars" invisible="count_in_transaction == False">
+
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="count_out_transaction"/>
+                                </span>
+                                <span class="o_stat_text">Taken Blood</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_open_buy_blood_order" type="object" icon="fa-bars" invisible="count_buy_bloods == False">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="count_buy_bloods"/>
+                                </span>
+                                <span class="o_stat_text">Buy Blood Orders</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Personal Information" name="personal_info">
+                            <field name="patient_id" readonly="1"/>
+                            <field name="product_id" required="1"/>
+                        </group>
+                        <group string="Contact Information" name="contact_info">
+                            <field name="mobile"/>
+                            <field name="email"/>
+                        </group>
+                        <group string="Balance">
+                            <h3>
+                                <field name="balance"/>
+                            </h3>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="consent"/>
+                    </group>
+                    <notebook>
+                        <page name="request" string="Blood Request">
+                            <field name="my_request_ids" readonly="1">
+                                <list>
+                                    <field name="id" invisible="1"/>
+                                    <field name="date" />
+                                    <field name="patient_id"/>
+                                    <field name="qty" sum="total"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'accept'"/>
+                                    <button string="Accept and Donate" name="action_accept_donate" invisible="state != 'draft'" type="object" class="oe_highlight"/>
+                                    
+                                    <button string="Cancel" name="action_cancel_donate" invisible="state != 'draft'" type="object"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="blood_donor_view_tree" model="ir.ui.view">
+        <field name="name">blood.donor.view.list</field>
+        <field name="model">blood.donor</field>
+        <field name="arch" type="xml">
+            <list string="Blood Donors">
+                <field name="patient_id"/>
+                <field name="mobile"/>
+                <field name="product_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_blood_donor" model="ir.actions.act_window">
+        <field name="name">Blood Donors</field>
+        <field name="res_model">blood.donor</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_blood_blood" name="Blood Bank" parent="healthcare_management.main_menu_healthcare_management" sequence="12">
+        <menuitem id="blood_donor_menu" action="action_blood_donor" name="Blood Donors" sequence="10"/>
+    </menuitem>
+</odoo>

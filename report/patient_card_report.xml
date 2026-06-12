@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_patient_card_document">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="text-center">
+                    <span t-esc="request.env.user.company_id.name" style="font-size: 20pt"/>
+                </div>
+                <div class="text-center mt-1">
+                    <span style="font-size: 14pt">Patient Card</span>
+                </div>
+                <div class="text-center mt-1">
+                    <span class="text-center">
+                        <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                    </span>
+                    <div>
+                        <span t-field='o.name' />
+                    </div>
+                </div>
+                <table class="table table-sm">
+                    <tr>
+                        <td colspan="1">
+                            <strong>Name</strong>
+                        </td>
+                        <td colspan="3">
+                            <span t-field='o.patient_id.name' />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Gender</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.sex' />
+                        </td>
+                        <td>
+                            <strong>Blood Group</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.blood_type'/><span t-field='o.rh'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date of Birth</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.date_of_birth' />
+                        </td>
+                        <td>
+                            <strong>Age</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.age'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">
+                            <strong>Address</strong>
+                        </td>
+                        <td colspan="3">
+                            <span t-out="o.patient_id.street or ''"/>
+                            <span t-out="o.patient_id.street2 or ''"/>
+                            <span t-out="o.patient_id.state_id.name or ''"/>
+                            <span t-out="o.patient_id.country_id.name or ''"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">
+                            <strong>Mobile No.</strong>
+                        </td>
+                        <td colspan="3"> <span t-field='o.mobile'/> <br/> <span t-field='o.patient_id.phone'/></td>
+                    </tr>
+                </table>
+                <div class="text-center mt-1">
+                    <span t-if="o.patient_disease_ids" style="font-size: 14pt">Disease Details</span>
+                </div>
+                <table t-if="o.patient_disease_ids" class="table table-sm">
+                    <thead>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Active</th>
+                        <th class="text-center">Infectious</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center">Physician</th>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.patient_disease_ids" t-as="line">
+                            <td><span t-field='line.pathology_id'/></td>
+                            <td><span t-field='line.status'/></td>
+                            <td>
+                                <t t-if="line.is_active">
+                                    Yes
+                                </t>
+                                <t t-else="">
+                                    No
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="line.is_infectious">
+                                    Yes
+                                </t>
+                                <t t-else="">
+                                    No
+                                </t>
+                            </td>
+                            <td><span t-field='line.short_comment'/></td>
+                            <td><span t-field='line.doctor_id'/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_patient_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="healthcare_management.report_patient_card_document"
+                    t-lang="o.patient_id.lang" />
+            </t>
+        </t>
+    </template>
+</odoo>
