@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_view_priscription_id2" model="ir.actions.act_window">
+        <field name="name">Prescription Orders</field>
+        <field name="res_model">medical.prescription.order</field>
+        <field name="binding_model_id" ref="model_medical_patient"/>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('patient_id', '=', active_id)]</field>
+    </record>
+
+    <!-- list view -->
+    <record id="medical_prescription_order_tree_view" model="ir.ui.view">
+        <field name="name">medical.prescription.order.list.view</field>
+        <field name="model">medical.prescription.order</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <list string="Prescription">
+                <field name="name" />
+                <field name="patient_id" />
+                <field name="user_id" />
+                <field name="prescription_date" />
+                <field name="doctor_id" />
+            </list>
+        </field>
+    </record>
+
+    <record id="medical_prescription_order_form_view" model="ir.ui.view">
+        <field name="name">medical.prescription.order.form.view</field>
+        <field name="model">medical.prescription.order</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+                <header>
+                    <button name="prescription_report" type="object" string="Print Prescription" class="oe_highlight" />
+                    <button name="%(action_create_prescription_invoice1)d" type="action" string="Create Invoice" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_picking" type="object" invisible="count_picking == False" context="{'open_invoice': True}" class="oe_stat_button" icon="fa-truck">
+
+                            <div class="o_field_widget o_stat_info">
+                                <field name="count_picking"/>
+                                <span class="o_stat_text">Delivery</span>
+                            </div>
+                        </button>
+                        <button name="action_open_invoices" type="object"  invisible="count_invoice == False" context="{'open_invoice': True}" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <div class="o_field_widget o_stat_info">
+                                <field name="count_invoice"/>
+                                <span class="o_stat_text">Invoices</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group string="Patient and Doctor Information">
+                        <group>
+                            <field name="patient_id" required="1" options="{&quot;always_reload&quot;: True}" />
+                            <field name="prescription_date" required="1" />
+                            <field name="pharmacy_partner_id" />
+                        </group>
+                        <group>
+                            <field name="name" readonly="1" />
+                            <field name="user_id" />
+                            <field name="doctor_id" required="1" />
+                            <field name="invoice_to_insurer" />
+                            <field name="insurer_id"  invisible="invoice_to_insurer == False"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="prescription_line" string="Prescription Details">
+                            <field name="prescription_line_ids" nolabel="1" colspan="2"/>
+                            <group string="Notes">
+                                <field name="notes" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+                        <page name="insurance" string="Insurance" invisible="insurer_id == False">
+                            <group>
+                                <group>
+                                    <field name="is_file_needed" invisible="1"/>
+                                    <field name="is_pf_file" invisible="1"/>
+                                    <field name="is_pay_slip" invisible="1"/>
+                                    <field name="is_bank_statement" invisible="1"/>
+                                    <field name="is_medical_bill" invisible="1"/>
+                                    <field name="file" filename="file_name" invisible="is_file_needed == False"/>
+                                    <field name="file_name" invisible="1"/>
+                                    <field name="pf_file" filename="pf_file_name" invisible="is_pf_file == False"/>
+                                    <field name="pf_file_name" invisible="1" />
+                                    <field name="payslip_file" filename="payslip_file_name" invisible="is_pay_slip == False"/>
+                                    <field name="payslip_file_name" invisible="1" />
+                                    <field name="bank_statement_file" filename="bank_statement_file_name" invisible="is_bank_statement == False"/>
+                                    <field name="bank_statement_file_name" invisible="1"/>
+                                    <field name="medical_bill_file" filename="medical_bill_file_name" invisible="is_medical_bill == False"/>
+                                    <field name="medical_bill_file_name" invisible="1"/>
+                                    <field name="policy_no" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Images">
+                        <field name="image_ids" context="{'default_patient_id': patient_id}"/>
+                        </page>
+                        <page string="Test">
+                        <field name="lab_test_ids" context="{'default_patient_id': patient_id}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search View -->
+    <record id="medical_prescription_order_search_view" model="ir.ui.view">
+        <field name="name">medical.prescription.order.search.view</field>
+        <field name="model">medical.prescription.order</field>
+        <field name="type">search</field>
+        <field name="priority" eval="8" />
+        <field name="arch" type="xml">
+            <search string="Search Patient Prescriptions">
+                <separator orientation="vertical" />
+                <field name="name" />
+                <field name="patient_id" />
+                <field name="prescription_date" />
+                <field name="pharmacy_partner_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_medical_prescription_order">
+        <field name="name">Prescription Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.prescription.order</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="medical_prescription_order_search_view" />
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_medical_prescription_invoice" model="ir.actions.act_window">
+        <field name="name">Prescriptions to be invoiced</field>
+        <field name="res_model">medical.prescription.order</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="prescription_to_be_invoice" action="action_medical_prescription_invoice" parent="Invoice" sequence="4"/>
+
+
+    <menuitem id="dental_prescription_child" action="action_medical_prescription_order" name="Prescriptions" parent="menu_patients" sequence="2" />
+
+</odoo>
