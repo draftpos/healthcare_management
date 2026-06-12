@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_patient_visiting_card_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="text-center">
+                    <span t-esc="request.env.user.company_id.name" style="font-size: 20pt"/>
+                </div>
+                <div class="text-center mt-1">
+                    <span style="font-size: 14pt">Visiting Card</span>
+                </div>
+                <div class="text-center mt-1">
+                    <span class="text-center">
+                        <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                    </span>
+                    <div>
+                        <span t-field='o.name'/>
+                    </div>
+                </div>
+                <table class="table table-sm">
+                    <tr>
+                        <td colspan="1">
+                            <strong>Patient Name</strong>
+                        </td>
+                        <td colspan="3">
+                            <span t-field='o.patient_id.patient_id.name' />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Gender</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.sex' />
+                        </td>
+                        <td>
+                            <strong>Blood Group</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.blood_type'/>
+                            <span t-field='o.patient_id.rh'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date of Birth</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.date_of_birth' />
+                        </td>
+                        <td>
+                            <strong>Age</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.age'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Hospitalize Date</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.hospitalization_date' />
+                        </td>
+                        <td>
+                            <strong>Discharge Date</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.discharge_date'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Ward</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.ward_id'/>
+                        </td>
+                        <td>
+                            <strong>Hospital Bed</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.medical_hospital_bed_id'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_patient_visiting_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-foreach="request.env.user.company_id.visiting_card" t-as="line">
+                    <t t-call="healthcare_management.report_patient_visiting_card_template" t-lang="o.patient_id.patient_id.lang" />
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
