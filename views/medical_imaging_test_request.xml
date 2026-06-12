@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_imaging_test_request_view" model="ir.ui.view">
+        <field name="name">medical.imaging.test.request.form</field>
+        <field name="model">medical.imaging.test.request</field>
+        <field name="arch" type="xml">
+            <form string="Test Requests">
+                <header>
+                    <button name="confirm" string="Confirm" type="object" invisible = "state != 'draft'"  />
+                    <button name="done" string="Create Result" type="object"  invisible = "state != 'confirmed'"/>
+                    <button name="cancel" string="Cancel" type="object" invisible = "state != 'draft'"  />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done,cancel" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="test_date" />
+                            <field name="test_id" />
+                            <field name="patient_id" />
+                        </group>
+                        <group>
+                            <field name="physician_id" />
+                            <field name="urgent" />
+                            <field name="comments"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_imaging_test_request_tree" model="ir.ui.view">
+        <field name="name">medical.imaging.test.request.list</field>
+        <field name="model">medical.imaging.test.request</field>
+        <field name="arch" type="xml">
+            <list string="Test Requests">
+                <field name="name" />
+                <field name="test_date" />
+                <field name="test_id" />
+                <field name="patient_id" />
+                <field name="physician_id" />
+                <field name="urgent" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_medical_imaging_test_result_1" model="ir.actions.act_window">
+        <field name="name">All Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.imaging.test.request</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_medical_imaging_test_result_draft" model="ir.actions.act_window">
+        <field name="name">Draft Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.imaging.test.request</field>
+        <field name="domain">[('state','=','draft')]</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_medical_imaging_test_result_confirmed" model="ir.actions.act_window">
+        <field name="name">Confirmed Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.imaging.test.request</field>
+        <field name="domain">[('state','=','confirmed')]</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_medical_imaging_test_result_done" model="ir.actions.act_window">
+        <field name="name">Done Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.imaging.test.request</field>
+        <field name="domain">[('state','=','done')]</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <record id="action_medical_imaging_test_result_cancel" model="ir.actions.act_window">
+        <field name="name">Cancel Requests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.imaging.test.request</field>
+        <field name="domain">[('state','=','cancel')]</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_imaging_test_request" name='Imaging Test Request' parent="healthcare_management.menu_main_imaging" />
+
+    <menuitem id="menu_medical_imaging_test_all_request" action="action_medical_imaging_test_result_1" parent="healthcare_management.menu_imaging_test_request" />
+
+    <menuitem id="menu_medical_imaging_test_draft_request" action="action_medical_imaging_test_result_draft" parent="healthcare_management.menu_imaging_test_request" />
+
+    <menuitem id="menu_medical_imaging_test_requested_request" action="action_medical_imaging_test_result_confirmed" parent="healthcare_management.menu_imaging_test_request" />
+    <menuitem id="menu_medical_imaging_test_done_request" action="action_medical_imaging_test_result_done" parent="healthcare_management.menu_imaging_test_request" />
+
+    <menuitem id="menu_medical_imaging_test_cancel_request" action="action_medical_imaging_test_result_cancel" parent="healthcare_management.menu_imaging_test_request" />
+</odoo>
+ 

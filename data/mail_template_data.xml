@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="rating_appointment_request_email_template" model="mail.template">
+            <field name="name">Hospital Appointment: Rating Request</field>
+            <field name="model_id" ref="healthcare_management.model_medical_appointment"/>
+            <field name="subject">{{ object.env.user.company_id.name or 'Hospital' }}: Doctor Rating Request</field>
+            <field name="email_from">{{ (object.env.user.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ (object.patient_id.email if not object.sudo().patient_id.email else '') }}</field>
+            <field name="partner_to">{{ object.patient_id.patient_id.id if not object.sudo().patient_id.email else '' }}</field>
+            <field name="description">Enable "Patient Ratings" feature on the Hospital team</field>
+            <field name="body_html" type="html">
+                <div>
+                    <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0;">
+                        <tbody>
+                            <tr>
+                                <td valign="top" style="font-size: 14px;">
+                                    <t t-if="object.patient_id.patient_id.name">
+                                Hello <t t-out="object.patient_id.patient_id.name or ''">Patient</t>,                                        <br/>
+                                    </t>
+                                    <t t-else="">
+                                Hello,<br/>
+                                    </t>
+                                Hope You are well and your health is better.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
+                                    <table border="0" cellpadding="0" cellspacing="0" summary="o_mail_notification" style="width:100%; margin: 32px 0px 32px 0px;">
+                                        <tr>
+                                            <td style="font-size: 14px;">
+                                                <strong>Tell us how you feel about our service</strong>
+                                                <br/>
+                                                <span style="text-color: #888888">(click on one of these smileys)</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 14px;">
+                                                <table style="width:100%;text-align:center;margin-top:2rem;">
+                                                    <tr>
+                                                        <td>
+                                                            <a t-attf-href="/rate/{{ object.access_token }}/5">
+                                                                <img alt="Satisfied" src="/rating/static/src/img/rating_5.png" title="Satisfied"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a t-attf-href="/rate/{{ object.access_token }}/3">
+                                                                <img alt="Okay" src="/rating/static/src/img/rating_3.png" title="Okay"/>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a t-attf-href="/rate/{{ object.access_token }}/1">
+                                                                <img alt="Dissatisfied" src="/rating/static/src/img/rating_1.png" title="Dissatisfied"/>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="font-size: 14px;">We appreciate your feedback. It helps us to improve continuously.
+                                    <br/>
+                                    <br/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </field>
+            <field name="lang">{{ object.patient_id.patient_id.lang or object.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+        <record id="revisit_reminder_mail_template_medical_appointment" model="mail.template">
+            <field name="name">Hospital Appointment: Re-visit Reminder to paitent</field>
+            <field name="model_id" ref="healthcare_management.model_medical_appointment"/>
+            <field name="subject">{{ object.name or '' }} Reminder for Re-visit </field>
+            <field name="email_from">{{ (object.env.user.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ (object.patient_id.email if not object.sudo().patient_id.email else '') }}</field>
+            <field name="partner_to">{{ object.patient_id.patient_id.id if not object.sudo().patient_id.email else '' }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <table border="0" cellpadding="0" cellspacing="0" style="width:100%; margin:0;">
+                        <tbody>
+                            <tr>
+                                <td valign="top" style="font-size: 14px;">
+                                    <t t-if="object.patient_id.patient_id.name">
+                                Hello <t t-out="object.patient_id.patient_id.name or ''">Patient</t>,                                        <br/>
+                                    </t>
+                                    <t t-else="">
+                                Hello,<br/></t>
+                                    <br/>
+                                    <br/>
+                                Hope You are well and your health is better.<br/>
+                                You need to go for checkup again. Your checkup date: <t t-out="object.next_visit_date"/>.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </field>
+            <field name="lang">{{ object.patient_id.patient_id.lang or object.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

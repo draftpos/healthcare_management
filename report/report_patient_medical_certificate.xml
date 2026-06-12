@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="report_patient_medical_certificate_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="text-center">
+                    <span t-esc="request.env.user.company_id.name" style="font-size: 20pt"/>
+                </div>
+                <div class="text-center mt-1">
+                    <span style="font-size: 18pt">Medical Certificate</span>
+                </div>
+                <div class="text-center mt-1">
+                    <span class="text-center">
+                        <img t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                    </span>
+                    <div>
+                        <span t-field='o.name'/>
+                    </div>
+                </div>
+                <div class="text-right mt-2 mb-2">
+                    <div>
+                        Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                    </div>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td colspan="1">
+                            <strong>Patient Name</strong>
+                        </td>
+                        <td colspan="3">
+                            <span t-field='o.patient_id.patient_id.name' />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Gender</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.sex' />
+                        </td>
+                        <td>
+                            <strong>Blood Group</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.blood_type'/>
+                            <span t-field='o.patient_id.rh'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date of Birth</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.date_of_birth' />
+                        </td>
+                        <td>
+                            <strong>Age</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.patient_id.age'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Hospitalize Date</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.hospitalization_date' />
+                        </td>
+                        <td>
+                            <strong>Discharge Date</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.discharge_date'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Ward</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.ward_id'/>
+                        </td>
+                        <td>
+                            <strong>Hospital Bed</strong>
+                        </td>
+                        <td>
+                            <span t-field='o.medical_hospital_bed_id'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+            <br/>
+            <div class="row mt32 mb32" id="informations">
+                <div class="col-xs-3">
+                    <strong>Notes:</strong>
+                    <span t-field="o.info"/>
+                </div>
+            </div>
+            <div class="row mt-5" id="informations">
+                <div class="text-right mt-5">
+                    <strong>Doctor Signature:  _________________________________</strong>
+                </div>
+            </div>
+            <div>
+                Date: 
+            </div>
+        </t>
+    </template>
+
+    <template id="report_patient_medical_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="healthcare_management.report_patient_medical_certificate_template" t-lang="o.patient_id.patient_id.lang" />
+            </t>
+        </t>
+    </template>
+</odoo>
